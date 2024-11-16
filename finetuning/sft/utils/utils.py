@@ -69,7 +69,7 @@ def read_file_from_position(args):
             print(f"worker_id {worker_id} completed")
             return objs
         for cnt in tqdm.tqdm(itertools.count(), position=worker_id, desc=f"worker_id: {worker_id}"):
-            line = f.readline()  
+            line = f.readline(5_000_000)  
             if not line:
                 break
             obj = json.loads(line)
@@ -190,7 +190,7 @@ def read_file_from_position_with_filter(args):
             print(f"worker_id {worker_id} completed")
             return objs
         for cnt in tqdm.tqdm(itertools.count(), position=worker_id, desc=f"worker_id: {worker_id}"):
-            line = f.readline()  
+            line = f.readline(5_000_000)  
             if not line:
                 break
             obj = json.loads(line)
