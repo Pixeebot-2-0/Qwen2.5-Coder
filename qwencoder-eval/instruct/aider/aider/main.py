@@ -364,7 +364,7 @@ def main(argv=None, input=None, output=None, force_git_root=None, return_coder=F
         import httpx
 
         litellm._load_litellm()
-        litellm._lazy_module.client_session = httpx.Client(verify=False)
+        litellm._lazy_module.client_session = httpx.Client(verify=True)
 
     if args.dark_mode:
         args.user_input_color = "#32FF32"
