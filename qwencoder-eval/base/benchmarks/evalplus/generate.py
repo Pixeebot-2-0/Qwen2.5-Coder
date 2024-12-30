@@ -118,7 +118,7 @@ def main(
     resolved = str(Path(target_file).resolve())
     print(f"Generation success, now testing...")
     command = f"evalplus.evaluate --dataset {dataset} --samples {resolved}"
-    output = subprocess.check_output(command, shell=True).decode()
+    output = subprocess.check_output(command, shell=False).decode()
     results = extract_scores(output)
     print(f"Captured: {results}")
 

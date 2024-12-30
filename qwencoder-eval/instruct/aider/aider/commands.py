@@ -748,8 +748,7 @@ class Commands:
                 stderr=subprocess.STDOUT,
                 text=True,
                 env=env,
-                shell=True,
-                encoding=self.io.encoding,
+                shell=False, encoding=self.io.encoding,
                 errors="replace",
             )
             combined_output = result.stdout
