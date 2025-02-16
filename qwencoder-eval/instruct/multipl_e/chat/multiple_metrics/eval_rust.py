@@ -3,6 +3,7 @@ import subprocess
 from pathlib import Path
 
 from .generic_eval import main
+from security import safe_command
 
 LANG_NAME = "Rust"
 LANG_EXT = ".rs"
@@ -33,7 +34,7 @@ def eval_script(path: Path):
     else:
         try:
             # Assumes exit-code 0 is all okay
-            output = subprocess.run([basename], capture_output=True, timeout=5)
+            output = safe_command.run(subprocess.run, [basename], capture_output=True, timeout=5)
             returncode = output.returncode
             if output.returncode == 0:
                 status = "OK"

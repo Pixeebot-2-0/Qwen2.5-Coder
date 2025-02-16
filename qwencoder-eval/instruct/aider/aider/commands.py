@@ -19,6 +19,7 @@ from aider.scrape import Scraper, install_playwright
 from aider.utils import is_image_file
 
 from .dump import dump  # noqa: F401
+from security import safe_command
 
 
 class SwitchCoder(Exception):
@@ -742,8 +743,7 @@ class Commands:
             args = "git " + args
             env = dict(subprocess.os.environ)
             env["GIT_EDITOR"] = "true"
-            result = subprocess.run(
-                args,
+            result = safe_command.run(subprocess.run, args,
                 stdout=subprocess.PIPE,
                 stderr=subprocess.STDOUT,
                 text=True,

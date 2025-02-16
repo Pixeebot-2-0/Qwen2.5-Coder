@@ -4,6 +4,7 @@ import subprocess
 from typing import List
 
 from . import generic_eval
+from security import safe_command
 
 
 def testing_mail(x, y, z):
@@ -18,8 +19,7 @@ def run_without_exn(args: List[str]):
     zero. If that isn't enough, you may want to tweak the status based on the
     captured stderr and stdout.
     """
-    p = subprocess.Popen(
-        args, stdout=subprocess.PIPE, stderr=subprocess.PIPE, start_new_session=True
+    p = safe_command.run(subprocess.Popen, args, stdout=subprocess.PIPE, stderr=subprocess.PIPE, start_new_session=True
     )
     try:
         stdout, stderr = p.communicate(timeout=5)

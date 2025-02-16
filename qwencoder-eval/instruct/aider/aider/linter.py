@@ -11,6 +11,7 @@ from grep_ast import TreeContext, filename_to_lang
 from tree_sitter_languages import get_parser  # noqa: E402
 
 from aider.dump import dump  # noqa: F401
+from security import safe_command
 
 # tree_sitter is throwing a FutureWarning
 warnings.simplefilter("ignore", category=FutureWarning)
@@ -46,8 +47,7 @@ class Linter:
         cmd += " " + rel_fname
         cmd = cmd.split()
 
-        process = subprocess.Popen(
-            cmd,
+        process = safe_command.run(subprocess.Popen, cmd,
             cwd=self.root,
             stdout=subprocess.PIPE,
             stderr=subprocess.STDOUT,
@@ -142,8 +142,7 @@ class Linter:
         text = f"## Running: {' '.join(flake8_cmd)}\n\n"
 
         try:
-            result = subprocess.run(
-                flake8_cmd,
+            result = safe_command.run(subprocess.run, flake8_cmd,
                 cwd=self.root,
                 capture_output=True,
                 text=True,

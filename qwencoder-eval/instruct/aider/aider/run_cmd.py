@@ -5,6 +5,7 @@ import sys
 from io import BytesIO
 
 import pexpect
+from security import safe_command
 
 
 def run_cmd(command, verbose=False, error_print=None):
@@ -26,8 +27,7 @@ def run_cmd_subprocess(command, verbose=False):
     if verbose:
         print("Using run_cmd_subprocess:", command)
     try:
-        process = subprocess.Popen(
-            command,
+        process = safe_command.run(subprocess.Popen, command,
             stdout=subprocess.PIPE,
             stderr=subprocess.STDOUT,
             text=True,

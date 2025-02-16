@@ -20,6 +20,7 @@ import random
 import string
 import time
 import openai
+from security import safe_command
 
 
 def call_gpt4o(messages, api_key, model="gpt-4o", temperature=0.2, max_tokens=16384):
@@ -336,10 +337,10 @@ def multi_write_jsonl_file(objs, path, workers = 16):
         results.append(p.apply_async(MPLogExceptions(write_jsonl_file), args=(pos[0], pos[1])))
     p.close()
     p.join()
-    p1 = subprocess.Popen(f"ls {path}-worker*.jsonl | sort -V | xargs cat > {path}", shell=True)
+    p1 = safe_command.run(subprocess.Popen, f"ls {path}-worker*.jsonl | sort -V | xargs cat > {path}", shell=True)
     p1.wait()
     print(f"Start merging to {path}")
-    p2 = subprocess.Popen(f"rm {path}-worker*.jsonl", shell=True)
+    p2 = safe_command.run(subprocess.Popen, f"rm {path}-worker*.jsonl", shell=True)
     print(f"Successfully Saving to {path}")
 
 def extract_class_name(code):

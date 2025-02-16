@@ -10,6 +10,7 @@ from operator import itemgetter
 import semver
 import yaml
 from tqdm import tqdm
+from security import safe_command
 
 
 def blame(start_tag, end_tag=None):
@@ -61,7 +62,7 @@ def get_all_commit_hashes_between_tags(start_tag, end_tag=None):
 
 def run(cmd):
     # Get all commit hashes since the specified tag
-    result = subprocess.run(cmd, capture_output=True, text=True, check=True)
+    result = safe_command.run(subprocess.run, cmd, capture_output=True, text=True, check=True)
     return result.stdout
 
 

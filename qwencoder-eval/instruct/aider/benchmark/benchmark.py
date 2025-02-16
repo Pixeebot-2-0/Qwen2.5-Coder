@@ -27,6 +27,7 @@ from aider import models
 from aider.coders import Coder
 from aider.dump import dump  # noqa: F401
 from aider.io import InputOutput
+from security import safe_command
 
 BENCHMARK_DNAME = Path(os.environ.get("AIDER_BENCHMARK_DIR", "tmp.benchmarks"))
 
@@ -682,8 +683,7 @@ def run_unit_tests(testdir, history_fname):
 
     timeout = 60
 
-    result = subprocess.run(
-        command,
+    result = safe_command.run(subprocess.run, command,
         stdout=subprocess.PIPE,
         stderr=subprocess.STDOUT,
         text=True,

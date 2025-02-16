@@ -23,6 +23,8 @@ import hashlib
 import random
 import string
 import nltk
+from security import safe_command
+
 class MPLogExceptions(object):
     def __init__(self, callable):
         self.__callable = callable
@@ -357,10 +359,10 @@ def multi_write_jsonl_file(objs, path, workers = 16):
         results.append(p.apply_async(MPLogExceptions(write_jsonl_file), args=(pos[0], pos[1])))
     p.close()
     p.join()
-    p1 = subprocess.Popen(f"ls {path}-worker*.jsonl | sort -V | xargs cat > {path}", shell=True)
+    p1 = safe_command.run(subprocess.Popen, f"ls {path}-worker*.jsonl | sort -V | xargs cat > {path}", shell=True)
     p1.wait()
     print(f"Start merging to {path}")
-    p2 = subprocess.Popen(f"rm {path}-worker*.jsonl", shell=True)
+    p2 = safe_command.run(subprocess.Popen, f"rm {path}-worker*.jsonl", shell=True)
     print(f"Successfully Saving to {path}")
 
 

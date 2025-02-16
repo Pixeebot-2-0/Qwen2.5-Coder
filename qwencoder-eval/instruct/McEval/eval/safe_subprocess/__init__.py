@@ -4,6 +4,7 @@ import signal
 import subprocess
 import time
 from typing import List
+from security import safe_command
 
 MAX_BYTES_PER_READ = 1024
 SLEEP_BETWEEN_READS = 0.1
@@ -40,8 +41,7 @@ def run(
     and all other processes in the process group. Captures at most max_output_size bytes
     of stdout and stderr each, and discards any output beyond that.
     """
-    p = subprocess.Popen(
-        args,
+    p = safe_command.run(subprocess.Popen, args,
         env=env,
         stdin=subprocess.DEVNULL,
         stdout=subprocess.PIPE,
