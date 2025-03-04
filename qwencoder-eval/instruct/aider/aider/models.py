@@ -16,6 +16,7 @@ from PIL import Image
 from aider import urls
 from aider.dump import dump  # noqa: F401
 from aider.llm import litellm
+from security import safe_requests
 
 DEFAULT_MODEL_NAME = "gpt-4o"
 ANTHROPIC_BETA_HEADER = "max-tokens-3-5-sonnet-2024-07-15,prompt-caching-2024-07-31"
@@ -455,10 +456,8 @@ def get_model_info(model):
             except Exception as ex:
                 print(str(ex))
 
-        import requests
-
         try:
-            response = requests.get(model_info_url, timeout=5)
+            response = safe_requests.get(model_info_url, timeout=5)
             if response.status_code == 200:
                 content = response.json()
                 cache_file.write_text(json.dumps(content, indent=4))
