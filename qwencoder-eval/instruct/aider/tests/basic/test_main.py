@@ -200,7 +200,8 @@ class TestMain(TestCase):
 
     def test_message_file_flag(self):
         message_file_content = "This is a test message from a file."
-        message_file_path = tempfile.mktemp()
+        with tempfile.NamedTemporaryFile(delete=False) as tf:
+            message_file_path = tf.name
         with open(message_file_path, "w", encoding="utf-8") as message_file:
             message_file.write(message_file_content)
 
