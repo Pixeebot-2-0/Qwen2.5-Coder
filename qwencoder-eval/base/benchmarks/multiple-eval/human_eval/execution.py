@@ -5,11 +5,11 @@ import multiprocessing
 import os
 import platform
 import signal
-import random
 import subprocess
 import tempfile
 from typing import *
 from pathlib import Path
+import secrets
 
 java_exec = ""
 node_exec = ""
@@ -37,7 +37,7 @@ def check_correctness(
     """
 
     def unsafe_execute(tmp_dir):
-        random_id = random.randint(1, 100000)
+        random_id = secrets.SystemRandom().randint(1, 100000)
         if "python" in language_type.lower():
             with create_tempdir():
 
