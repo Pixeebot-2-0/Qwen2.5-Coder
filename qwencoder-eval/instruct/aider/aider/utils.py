@@ -12,6 +12,7 @@ from pathlib import Path
 import git
 
 from aider.dump import dump  # noqa: F401
+from security import safe_command
 
 IMAGE_EXTENSIONS = {".png", ".jpg", ".jpeg", ".gif", ".bmp", ".tiff", ".webp"}
 
@@ -227,8 +228,7 @@ def run_install(cmd):
 
     try:
         output = []
-        process = subprocess.Popen(
-            cmd,
+        process = safe_command.run(subprocess.Popen, cmd,
             stdout=subprocess.PIPE,
             stderr=subprocess.STDOUT,
             text=True,

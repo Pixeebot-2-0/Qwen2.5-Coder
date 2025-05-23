@@ -4,6 +4,7 @@ import subprocess
 import sys
 
 from aider.dump import dump  # noqa: F401
+from security import safe_command
 
 
 def main():
@@ -53,7 +54,7 @@ def run(dirname, model, edit_format):
     ]
     print(" ".join(cmd))
 
-    subprocess.run(cmd, check=True)
+    safe_command.run(subprocess.run, cmd, check=True)
 
 
 if __name__ == "__main__":
