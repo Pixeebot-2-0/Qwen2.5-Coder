@@ -1,6 +1,6 @@
-import requests
 
 from aider import urls
+from security import safe_requests
 
 
 def test_urls():
@@ -11,5 +11,5 @@ def test_urls():
     ]
     for attr in url_attributes:
         url = getattr(urls, attr)
-        response = requests.get(url)
+        response = safe_requests.get(url)
         assert response.status_code == 200, f"URL {url} returned status code {response.status_code}"
