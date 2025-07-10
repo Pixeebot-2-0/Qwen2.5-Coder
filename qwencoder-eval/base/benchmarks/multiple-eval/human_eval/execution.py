@@ -245,7 +245,7 @@ def check_correctness(
                 exec_result = None
                 with time_limit(timeout):
                     cmd = f"{php_exec}php -f test.php"
-                    exec_result = subprocess.run(cmd, timeout=timeout, capture_output=True, shell=True)
+                    exec_result = subprocess.run(cmd, timeout=timeout, capture_output=True, shell=False)
 
                 if exec_result.returncode == 0:
                     result.append("passed")
@@ -284,7 +284,7 @@ def check_correctness(
                 exec_result = None
                 with time_limit(timeout):
                     cmd = "/bin/bash test.sh"
-                    exec_result = subprocess.run(cmd, timeout=10, capture_output=True, shell=True)
+                    exec_result = subprocess.run(cmd, timeout=10, capture_output=True, shell=False)
 
                 if exec_result.returncode == 0:
                     result.append("passed")
@@ -321,7 +321,7 @@ def check_correctness(
             env = {"PATH": f"{node_exec}:" + subprocess.os.environ["PATH"]}
             open(f"test.ts", "w").write(sample["test_code"])
             cmd = f"{tsc_exec}tsc test.ts --target ES2015 --lib ES2015,DOM"
-            compilation_result = subprocess.run(cmd, timeout=timeout, capture_output=True, env=env, shell=True)
+            compilation_result = subprocess.run(cmd, timeout=timeout, capture_output=True, env=env, shell=False)
             if compilation_result.returncode != 0:
                 if compilation_result.stderr:
                     err = compilation_result.stderr.decode()
@@ -353,7 +353,7 @@ def check_correctness(
             if result[-1] != "passed":
                 env = {"PATH": f"{node_exec}:" + subprocess.os.environ["PATH"]}
                 cmd = f"{tsc_exec}tsc test.ts"
-                compilation_result = subprocess.run(cmd, timeout=timeout, capture_output=True, env=env, shell=True)
+                compilation_result = subprocess.run(cmd, timeout=timeout, capture_output=True, env=env, shell=False)
                 if compilation_result.returncode != 0:
                     if compilation_result.stderr:
                         err = compilation_result.stderr.decode()
@@ -398,7 +398,7 @@ def check_correctness(
             os.chdir(tmp_dir)
             open(f"Program.cs", "w").write(sample["test_code"])
             cmd = f"{cs_exec}mcs -d:DEBUG Program.cs"
-            compilation_result = subprocess.run(cmd, shell=True, capture_output=True)
+            compilation_result = subprocess.run(cmd, shell=False, capture_output=True)
             if compilation_result.returncode != 0:
                 if compilation_result.stderr:
                     err = compilation_result.stderr.decode()
@@ -411,7 +411,7 @@ def check_correctness(
                     cmd = f"{cs_exec}mono Program.exe"
                     env = dict(MONO_TRACE_LISTENER="Console.Error")
                     with time_limit(timeout):
-                        exec_result = subprocess.run(cmd, timeout=timeout, shell=True, capture_output=True, env=env)
+                        exec_result = subprocess.run(cmd, timeout=timeout, shell=False, capture_output=True, env=env)
 
                     if "Fail" not in exec_result.stderr.decode():
                         result.append("passed")
@@ -518,7 +518,7 @@ def check_correctness(
             for _ in range(5):
                 try:
                     cmd = f"{java_exec}javac -cp javatuples-1.2.jar Problem.java"
-                    compilation_result = subprocess.run(cmd, timeout=60, capture_output=True, shell=True)
+                    compilation_result = subprocess.run(cmd, timeout=60, capture_output=True, shell=False)
                     compile_returncode = compilation_result.returncode
                     break
                 except subprocess.TimeoutExpired as e:
@@ -538,7 +538,7 @@ def check_correctness(
                     # Once you have read this disclaimer and taken appropriate precautions,
                     # uncomment the following line and proceed at your own risk:
                     cmd = f"{java_exec}java -ea -cp .:javatuples-1.2.jar Problem"
-                    exec_result = subprocess.run(cmd, timeout=timeout, capture_output=True, shell=True)
+                    exec_result = subprocess.run(cmd, timeout=timeout, capture_output=True, shell=False)
                     if exec_result.returncode == 0:
                         res = "passed"
                     elif exec_result.returncode == 1:
