@@ -80,7 +80,8 @@ class Voice:
     def raw_record_and_transcribe(self, history, language):
         self.q = queue.Queue()
 
-        filename = tempfile.mktemp(suffix=".wav")
+        with tempfile.NamedTemporaryFile(suffix=".wav", delete=False) as tf:
+            filename = tf.name
 
         try:
             sample_rate = int(self.sd.query_devices(None, "input")["default_samplerate"])
