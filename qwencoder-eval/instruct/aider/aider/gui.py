@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 
 import os
-import random
 import sys
 
 import streamlit as st
@@ -12,6 +11,7 @@ from aider.dump import dump  # noqa: F401
 from aider.io import InputOutput
 from aider.main import main as cli_main
 from aider.scrape import Scraper
+import secrets
 
 
 class CaptureIO(InputOutput):
@@ -173,11 +173,11 @@ class GUI:
         with st.expander("Recommended actions", expanded=True):
             with st.popover("Create a git repo to track changes"):
                 st.write(text)
-                self.button("Create git repo", key=random.random(), help="?")
+                self.button("Create git repo", key=secrets.SystemRandom().random(), help="?")
 
             with st.popover("Update your `.gitignore` file"):
                 st.write("It's best to keep aider's internal files out of your git repo.")
-                self.button("Add `.aider*` to `.gitignore`", key=random.random(), help="?")
+                self.button("Add `.aider*` to `.gitignore`", key=secrets.SystemRandom().random(), help="?")
 
     def do_add_to_chat(self):
         # with st.expander("Add to the chat", expanded=True):
@@ -406,7 +406,7 @@ class GUI:
         return self.state.prompt is not None
 
     def cost(self):
-        cost = random.random() * 0.003 + 0.001
+        cost = secrets.SystemRandom().random() * 0.003 + 0.001
         st.caption(f"${cost:0.4f}")
 
     def process_chat(self):

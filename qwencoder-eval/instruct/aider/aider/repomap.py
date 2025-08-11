@@ -1,7 +1,6 @@
 import colorsys
 import math
 import os
-import random
 import sqlite3
 import sys
 import time
@@ -19,6 +18,7 @@ from tqdm import tqdm
 from aider.dump import dump
 from aider.special import filter_important_files
 from aider.utils import Spinner
+import secrets
 
 # tree_sitter is throwing a FutureWarning
 warnings.simplefilter("ignore", category=FutureWarning)
@@ -643,7 +643,7 @@ def find_src_files(directory):
 
 
 def get_random_color():
-    hue = random.random()
+    hue = secrets.SystemRandom().random()
     r, g, b = [int(x * 255) for x in colorsys.hsv_to_rgb(hue, 1, 0.75)]
     res = f"#{r:02x}{g:02x}{b:02x}"
     return res

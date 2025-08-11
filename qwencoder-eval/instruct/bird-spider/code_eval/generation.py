@@ -1,6 +1,5 @@
 import json
 import asyncio
-import random
 
 from math import ceil
 from openai import AsyncOpenAI
@@ -12,6 +11,7 @@ from torch.utils.data.dataloader import DataLoader
 from transformers import StoppingCriteria, StoppingCriteriaList
 
 from code_eval.utils import TokenizedDataset, ChatTokenizedDataset, complete_code
+import secrets
 
 
 class EndOfFunctionCriteria(StoppingCriteria):
@@ -243,7 +243,7 @@ async def openai_generation(task, dataset, model: AsyncOpenAI, tokenizer, n_task
                 print(e)
                 print("Retrying...")
                 # random sleep to avoid rate limiting
-                await asyncio.sleep(random.randint(5, 15))
+                await asyncio.sleep(secrets.SystemRandom().randint(5, 15))
 
     raw_generations = []
     async_responses = []
