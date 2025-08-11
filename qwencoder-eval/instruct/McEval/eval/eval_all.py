@@ -10,7 +10,7 @@ import glob
 import traceback
 import tempfile
 import shutil
-import random 
+import secrets
 
 def prepare_tempdir_context(temp_dir):
     shutil.copytree('../data/AWK', os.path.join(temp_dir, 'data/AWK'),dirs_exist_ok=True)
@@ -118,7 +118,7 @@ def eval(args):
         finish_langs = []
   
     langs = [lang for lang in langs if (lang.lower() not in exclude_langs+finish_langs)]
-    random.shuffle(langs)
+    secrets.SystemRandom().shuffle(langs)
 
     print(langs)
     score = {}

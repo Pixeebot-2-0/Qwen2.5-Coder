@@ -1,7 +1,7 @@
 from typing import Tuple, List, Set
 from itertools import product
 from collections import defaultdict
-import random
+import secrets
 
 
 def permute_tuple(element: Tuple, perm: Tuple) -> Tuple:
@@ -48,7 +48,7 @@ def get_constraint_permutation(tab1_sets_by_columns: List[Set], result2: List[Tu
 
     # we sample 20 rows and constrain the space of permutations
     for _ in range(20):
-        random_tab2_row = random.choice(result2)
+        random_tab2_row = secrets.choice(result2)
 
         for tab1_col in range(num_cols):
             for tab2_col in set(perm_constraints[tab1_col]):

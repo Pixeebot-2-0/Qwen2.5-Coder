@@ -3,7 +3,6 @@
 import fnmatch
 import gc
 import json
-import random
 
 import datasets
 import numpy as np
@@ -15,6 +14,7 @@ from tasks import ALL_TASKS
 from transformers import AutoTokenizer, HfArgumentParser
 from vllm import LLM
 from vllm.distributed.parallel_state import destroy_distributed_environment, destroy_model_parallel
+import secrets
 
 
 class MultiChoice:
@@ -172,7 +172,7 @@ def pattern_match(patterns, source_list):
 
 def main():
     args = parse_args()
-    random.seed(args.seed)
+    secrets.SystemRandom().seed(args.seed)
     np.random.seed(args.seed)
 
     transformers.logging.set_verbosity_error()

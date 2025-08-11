@@ -2,7 +2,6 @@
 import os
 import sys
 import json
-import random
 import fnmatch
 
 import torch
@@ -16,6 +15,7 @@ from generator import Generator
 from generation_arguments import EvalArguments
 
 from tasks import ALL_TASKS
+import secrets
 
 
 class MultiChoice:
@@ -173,7 +173,7 @@ def pattern_match(patterns, source_list):
 
 def main():
     args = parse_args()
-    random.seed(args.seed)
+    secrets.SystemRandom().seed(args.seed)
     np.random.seed(args.seed)
 
     transformers.logging.set_verbosity_error()

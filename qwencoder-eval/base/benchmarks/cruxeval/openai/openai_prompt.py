@@ -1,11 +1,11 @@
 # Copyright (c) Meta Platforms, Inc. and affiliates.
 
-import random
 import json
 from openai import OpenAI
 from concurrent.futures import ThreadPoolExecutor
 import os
 import sys
+import secrets
 
 sys.path.append("..")
 from prompts import (
@@ -73,7 +73,7 @@ def call_openai_api(system_prompt, prompt, temperature, n, model, max_tokens, st
     return [result.choices[i].message.content for i in range(n)]
 
 def prompt_openai_general(make_prompt_fn, i, cache, gpt_query, temperature, n, model, max_tokens, stop) -> tuple[str, list[str]]:
-    x = random.randint(1, 1000)
+    x = secrets.SystemRandom().randint(1, 1000)
     print(f"started {x}")
 
     full_prompt = make_prompt_fn(gpt_query)
